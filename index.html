@@ -470,7 +470,7 @@
       <!-- Harga & Kurs -->
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="field-label">Harga (valas)</label>
+          <label class="field-label">Harga Beli</label>
           <input type="text" id="hargaBeli" placeholder="0" inputmode="decimal"
             oninput="formatValas(this)" class="field-input">
         </div>
@@ -927,9 +927,16 @@
         totalOngkir = cleanNumber(document.getElementById('hargaOngkirFlat').value);
       }
 
-      const totalBarangDenganTax = Math.round(hargaValas * 1.12 * kurs);
-      const totalFinal = Math.ceil((totalBarangDenganTax + totalOngkir) / 100) * 100;
-      const tax = totalBarangDenganTax - Math.round(hargaValas * kurs);
+        const negara = document.getElementById('negara').value;
+        const totalBarangDenganTax = (negara === 'Europe')
+          ? Math.round(hargaValas * 1.12 * kurs)
+      : Math.round(hargaValas * kurs);
+
+        const tax = (negara === 'Europe')
+  ? totalBarangDenganTax - Math.round(hargaValas * kurs)
+  : 0;
+
+const totalFinal = Math.ceil((totalBarangDenganTax + totalOngkir) / 100) * 100;
 
       lastResult = {
         nama       : document.getElementById('namaProduk').value || '-',
